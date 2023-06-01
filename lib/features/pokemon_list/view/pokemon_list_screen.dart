@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
 
 class PokemonListScreen extends StatefulWidget {
-  const PokemonListScreen({super.key, required this.title});
-
-  final String title;
+  const PokemonListScreen({super.key});
 
   @override
   State<PokemonListScreen> createState() => _PokemonListScreenState();
 }
 
 class _PokemonListScreenState extends State<PokemonListScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  List<Pokemon>? pokemonList;
+  @override
+  void initState() {
+    _getPokemonList();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text("Home page"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      body: pokemonList == null
+          ? const Center(child: Text('loading...'))
+          : ListView.separated(
+              padding: const EdgeInsets.only(top: 20),
+              itemCount: pokemonList!.length,
+              separatorBuilder: (context, i) => const Divider(),
+              itemBuilder: (context, i) {
+                final pokemon = pokemonList![i];
+                return PokemonTile(pokemon: pokemon);
+              }),
     );
   }
+
+  Future<List<Pokemon>> _getPokemonList() async =>
+      pokemonList = await PokemonRepository().getPokemonList();
 }
