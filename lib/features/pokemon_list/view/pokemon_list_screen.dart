@@ -23,7 +23,10 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home page"),
+        title: const Center(
+            child: Text(
+          "List of pokemons",
+        )),
       ),
       body: pokemonList == null
           ? const Center(child: CircularProgressIndicator())

@@ -45,7 +45,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      color: Colors.yellow,
                       child: Image.network(pokemonDetails!['imgUrl']),
                     ),
                   ),
@@ -53,20 +52,18 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                       flex: 1,
                       child: Center(
                           child: Text(pokemonDetails!['name'],
-                              style: const TextStyle(
-                                  fontSize: 40, fontWeight: FontWeight.bold)))),
+                              style: Theme.of(context).textTheme.bodyLarge))),
                   Expanded(
                     flex: 5,
                     child: Container(
-                      color: Colors.pink,
-                      child:  Column(
+                      child: Column(
                         children: [
-                          Text(
-                              'Weight: ${pokemonDetails!['weight']}'),
-                          Text(
-                              'Height: ${pokemonDetails!['height']}'),
-                          Text(
-                              'Types: ${pokemonDetails!['types'].toString()}'),
+                          Text('Weight: ${pokemonDetails!['weight']}',
+                              style: Theme.of(context).textTheme.bodyMedium),
+                          Text('Height: ${pokemonDetails!['height']}',
+                              style: Theme.of(context).textTheme.bodyMedium),
+                          Text('Types: ${pokemonDetails!['types'].toString()}',
+                              style: Theme.of(context).textTheme.bodyMedium),
                         ],
                       ),
                     ),
