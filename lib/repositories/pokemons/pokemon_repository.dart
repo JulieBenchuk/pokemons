@@ -4,8 +4,9 @@ import 'package:pokemons/repositories/pokemons/models/models.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
   @override
-  Future<List<Pokemon>> getPokemonList() async {
-    const String pokemonListURL = 'https://pokeapi.co/api/v2/pokemon';
+  Future<List<Pokemon>> getPokemonList(currentPage) async {
+    final int offset = (currentPage)*20;
+    final String pokemonListURL = 'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=20';
     final response = await Dio().get(pokemonListURL);
     final data = response.data as Map<String, dynamic>;
     final result = data['results'] as List<dynamic>;

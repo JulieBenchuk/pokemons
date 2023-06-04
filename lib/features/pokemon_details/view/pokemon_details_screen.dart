@@ -33,7 +33,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
       appBar: AppBar(
         title: Text(pokemonDetails == null
             ? 'loading name..'
-            : pokemonDetails!['name']),
+            : '${pokemonDetails!['name']} details'.toUpperCase()),
       ),
       body: pokemonDetails == null
           ? const Center(child: Text('loading'))
