@@ -3,17 +3,28 @@ import 'package:pokemons/repositories/pokemons/abstract_pokemon_repository.dart'
 import 'package:pokemons/repositories/pokemons/models/models.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
+  int limit = 9;
+
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
-    final int offset = (currentPage)*20;
-    final String pokemonListURL = 'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=20';
-    final response = await Dio().get(pokemonListURL);
+    final int offset = (currentPage)*limit;
+    final String pokemonListUrl = 'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
+    final response = await Dio().get(pokemonListUrl);
     final data = response.data as Map<String, dynamic>;
     final result = data['results'] as List<dynamic>;
     final resultList =
         result.map((e) => Pokemon(name: e['name'], url: e['url'])).toList();
     return resultList;
   }
+
+  @override
+  Future<int> getAmountOfPage() async {
+    final response = await Dio().get('https://pokeapi.co/api/v2/pokemon/');
+    final data = response.data as Map<String, dynamic>;
+    final int amountOfPage = data['count']/limit+1;
+    return amountOfPage;
+  }
+
   @override
   Future<Map<String, Object>> getPokemonDetails(pokemonUrl) async {
     final response = await Dio().get(pokemonUrl);

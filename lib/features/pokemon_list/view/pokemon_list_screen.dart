@@ -13,7 +13,7 @@ class PokemonListScreen extends StatefulWidget {
 
 class _PokemonListScreenState extends State<PokemonListScreen> {
   List<Pokemon>? pokemonList;
-  int numberOfPages = 50;
+  int numberOfPages = 100;
   int currentPage = 0;
 
   @override
@@ -41,10 +41,11 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                     numberPages: numberOfPages,
                     initialPage: currentPage,
                     config: NumberPaginatorUIConfig(
+                      buttonUnselectedForegroundColor: Colors.white,
+                      buttonSelectedBackgroundColor: Colors.red,
                       buttonShape: BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      buttonSelectedBackgroundColor: Colors.red,
                     ),
                     onPageChange: (index) {
                       setState(() {
