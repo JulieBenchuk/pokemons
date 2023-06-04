@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemons/repositories/pokemons/pokemon_repository.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
   const PokemonDetailsScreen({super.key});
@@ -8,23 +9,33 @@ class PokemonDetailsScreen extends StatefulWidget {
 }
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
-  String? pokemonName;
+  String? pokemonUrl;
+  Map? pokemonDetails;
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)?.settings.arguments;
     assert(args != null && args is String, 'You must provide string args');
-    pokemonName = args as String;
-    setState(() {});
+    pokemonUrl = args as String;
+    _getPokemonDetails();
     super.didChangeDependencies();
+  }
+  @override
+  void initState() {
+    _getPokemonDetails();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(pokemonName ?? 'no name'),
+        title: Text(pokemonDetails == null ? 'loading name..' : pokemonDetails!['name']),
       ),
-      body: Center(child: Text(pokemonName ?? 'no name')),
+      body:  pokemonDetails == null ? const Center(child: CircularProgressIndicator())
+      : Center(child: Text('name: ${pokemonDetails!['name']}, id: ${pokemonDetails!['id']}, weight: ${pokemonDetails!['weight']}, height: ${pokemonDetails!['height']}')),
     );
   }
+
+  Future<Map<String, dynamic>> _getPokemonDetails() async =>
+      pokemonDetails = await PokemonRepository().getPokemonDetails(pokemonUrl);
 }

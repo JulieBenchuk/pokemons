@@ -16,7 +16,7 @@ class PokemonTile extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward_ios),
       title: Text(pokemon.name),
       onTap: () {
-        Navigator.of(context).pushNamed('/details', arguments: pokemon.name);
+        Navigator.of(context).pushNamed('/details', arguments: pokemon.url);
       },
     );
   }

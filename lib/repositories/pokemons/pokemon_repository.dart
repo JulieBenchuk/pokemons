@@ -13,4 +13,15 @@ class PokemonRepository implements AbstractPokemonRepository {
         result.map((e) => Pokemon(name: e['name'], url: e['url'])).toList();
     return resultList;
   }
+  @override
+  Future<Map<String, dynamic>> getPokemonDetails(pokemonUrl) async {
+    final response = await Dio().get(pokemonUrl);
+    final data = response.data as Map<String, dynamic>;
+    final String name = data['name'];
+    final int weight = data['weight'];
+    final int id = data['id'];
+    final int height = data['height'];
+    final pokemonDetails = {'name': name, 'id': id, 'weight': weight, 'height': height } as Map<String, dynamic>;
+    return pokemonDetails;
+  }
 }

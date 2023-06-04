@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pokemons/features/pokemon_list/widgets/widgets.dart';
-
 import '../../../repositories/pokemons/models/models.dart';
 import '../../../repositories/pokemons/pokemon_repository.dart';
 
@@ -26,7 +25,7 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
         title: const Text("Home page"),
       ),
       body: pokemonList == null
-          ? const Center(child: Text('loading...'))
+          ? const Center(child: CircularProgressIndicator())
           : ListView.separated(
               padding: const EdgeInsets.only(top: 20),
               itemCount: pokemonList!.length,
