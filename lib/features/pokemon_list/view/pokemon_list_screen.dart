@@ -12,6 +12,7 @@ class PokemonListScreen extends StatefulWidget {
 
 class _PokemonListScreenState extends State<PokemonListScreen> {
   List<Pokemon>? pokemonList;
+
   @override
   void initState() {
     _getPokemonList();

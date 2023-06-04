@@ -10,7 +10,8 @@ class PokemonDetailsScreen extends StatefulWidget {
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   String? pokemonUrl;
-  Map? pokemonDetails;
+  Map<dynamic, dynamic>? pokemonDetails;
+
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)?.settings.arguments;
@@ -19,23 +20,63 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     _getPokemonDetails();
     super.didChangeDependencies();
   }
-  @override
+
+/*  @override
   void initState() {
     _getPokemonDetails();
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(pokemonDetails == null ? 'loading name..' : pokemonDetails!['name']),
+        title: Text(pokemonDetails == null
+            ? 'loading name..'
+            : pokemonDetails!['name']),
       ),
-      body:  pokemonDetails == null ? const Center(child: CircularProgressIndicator())
-      : Center(child: Text('name: ${pokemonDetails!['name']}, id: ${pokemonDetails!['id']}, weight: ${pokemonDetails!['weight']}, height: ${pokemonDetails!['height']}')),
+      body: pokemonDetails == null
+          ? const Center(child: Text('loading'))
+          : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.yellow,
+                      child: Image.network(pokemonDetails!['imgUrl']),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Center(
+                          child: Text(pokemonDetails!['name'],
+                              style: const TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold)))),
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                      color: Colors.pink,
+                      child:  Column(
+                        children: [
+                          Text(
+                              'Weight: ${pokemonDetails!['weight']}'),
+                          Text(
+                              'Height: ${pokemonDetails!['height']}'),
+                          Text(
+                              'Types: ${pokemonDetails!['types'].toString()}'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 
-  Future<Map<String, dynamic>> _getPokemonDetails() async =>
+  Future<Map<String, Object>> _getPokemonDetails() async =>
       pokemonDetails = await PokemonRepository().getPokemonDetails(pokemonUrl);
 }
