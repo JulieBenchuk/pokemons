@@ -1,8 +1,7 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:pokemons/features/pokemon_list/widgets/widgets.dart';
-import '../../../repositories/pokemons/models/models.dart';
-import '../../../repositories/pokemons/pokemon_repository.dart';
 
 class PokemonListScreen extends StatefulWidget {
   const PokemonListScreen({super.key});

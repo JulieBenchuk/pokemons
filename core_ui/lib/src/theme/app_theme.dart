@@ -1,58 +1,28 @@
 part of core_ui;
 
-const LightColors _appColors = LightColors();
-
-final ThemeData lightTheme = ThemeData.light().copyWith(
-  // appBarTheme: _getAppBarTheme(),
-  scaffoldBackgroundColor: _appColors.white,
-  textTheme: _getTextTheme(),
-  inputDecorationTheme: _getInputDecorationTheme(),
-  primaryColor: _appColors.primaryBg,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: _appColors.primaryBg,
-    primary: _appColors.primaryBg,
-  ),
-);
-
-TextTheme _getTextTheme() {
-  return TextTheme(
-    titleMedium: AppFonts.normal13,
-    bodyMedium: AppFonts.normal13,
-  ).apply(
-    bodyColor: _appColors.primaryBg,
-    displayColor: _appColors.primaryBg,
-  );
-}
-
-InputDecorationTheme _getInputDecorationTheme() {
-  return InputDecorationTheme(
-    hintStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
-    border: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_12),
-      ),
-      borderSide: BorderSide(
-        color: _appColors.primaryBg,
-      ),
+final greenTheme = ThemeData(
+    appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      backgroundColor: Colors.black45,
+      titleTextStyle: TextStyle(
+          color: Colors.red,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 1,
+          fontSize: 24),
     ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_12),
+    dividerTheme: const DividerThemeData(color: Colors.white10),
+    iconTheme: const IconThemeData(color: Colors.white),
+    scaffoldBackgroundColor: Colors.teal,
+    useMaterial3: true,
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Colors.white70,
+        fontWeight: FontWeight.w400,
+        fontSize: 22,
       ),
-      borderSide: BorderSide(
-        color: _appColors.primaryBg,
-        width: 2,
+      bodyLarge: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        fontSize: 34,
       ),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_6),
-      ),
-      borderSide: BorderSide(
-        color: _appColors.primaryBg,
-        width: 2,
-      ),
-    ),
-    labelStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
-  );
-}
+    ));

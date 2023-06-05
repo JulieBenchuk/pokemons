@@ -1,14 +1,14 @@
 import 'package:core/core.dart';
-import 'package:pokemons/repositories/pokemons/abstract_pokemon_repository.dart';
-import 'package:pokemons/repositories/pokemons/models/models.dart';
+import 'package:domain/domain.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
   int limit = 9;
 
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
-    final int offset = (currentPage)*limit;
-    final String pokemonListUrl = 'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
+    final int offset = (currentPage) * limit;
+    final String pokemonListUrl =
+        'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
     final response = await Dio().get(pokemonListUrl);
     final data = response.data as Map<String, dynamic>;
     final result = data['results'] as List<dynamic>;
@@ -21,7 +21,7 @@ class PokemonRepository implements AbstractPokemonRepository {
   Future<int> getAmountOfPage() async {
     final response = await Dio().get('https://pokeapi.co/api/v2/pokemon/');
     final data = response.data as Map<String, dynamic>;
-    final int amountOfPage = data['count']/limit+1;
+    final int amountOfPage = data['count'] / limit + 1;
     return amountOfPage;
   }
 
@@ -36,7 +36,14 @@ class PokemonRepository implements AbstractPokemonRepository {
     final String imgUrl = data['sprites']['front_default'];
     final List types = data['types'] as List<dynamic>;
     final List listOfTypes = types.map((e) => e['type']['name']).toList();
-    final pokemonDetails = {'name': name, 'id': id, 'weight': weight, 'height': height, 'types': listOfTypes, 'imgUrl': imgUrl};
+    final pokemonDetails = {
+      'name': name,
+      'id': id,
+      'weight': weight,
+      'height': height,
+      'types': listOfTypes,
+      'imgUrl': imgUrl
+    };
     return pokemonDetails;
   }
 }

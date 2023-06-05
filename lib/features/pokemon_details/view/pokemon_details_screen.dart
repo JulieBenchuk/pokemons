@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemons/repositories/pokemons/pokemon_repository.dart';
+import 'package:domain/domain.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
   const PokemonDetailsScreen({super.key});
