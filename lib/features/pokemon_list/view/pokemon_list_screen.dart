@@ -26,10 +26,9 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-            child: Text(
+        title: const Text(
           "List of pokemons",
-        )),
+        ),
       ),
       body: pokemonList == null
           ? const Center(child: CircularProgressIndicator())
@@ -37,23 +36,7 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: NumberPaginator(
-                    numberPages: numberOfPages,
-                    initialPage: currentPage,
-                    config: NumberPaginatorUIConfig(
-                      buttonUnselectedForegroundColor: Colors.white,
-                      buttonSelectedBackgroundColor: Colors.red,
-                      buttonShape: BeveledRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPageChange: (index) {
-                      setState(() {
-                        currentPage = index;
-                        _getPokemonList();
-                      });
-                    },
-                  ),
+                  child: _getPaginator(),
                 ),
                 Expanded(
                     child: Container(
@@ -67,6 +50,26 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                             }))),
               ],
             ),
+    );
+  }
+
+  NumberPaginator _getPaginator() {
+    return NumberPaginator(
+      numberPages: numberOfPages,
+      initialPage: currentPage,
+      config: NumberPaginatorUIConfig(
+        buttonUnselectedForegroundColor: Colors.white,
+        buttonSelectedBackgroundColor: Colors.red,
+        buttonShape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPageChange: (index) {
+        currentPage = index;
+        setState(() {
+          _getPokemonList();
+        });
+      },
     );
   }
 
