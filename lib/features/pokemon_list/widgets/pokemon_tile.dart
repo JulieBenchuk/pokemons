@@ -12,8 +12,8 @@ class PokemonTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        'https://cdn.iconscout.com/icon/free/png-256/free-pokemon-pokeball-game-go-34722.png',
+      leading: Image.asset(
+        'core_ui/lib/src/assets/logo.png',
         width: 40,
         height: 40,
       ),
