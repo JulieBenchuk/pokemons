@@ -5,7 +5,7 @@ final greenTheme = ThemeData(
       centerTitle: true,
       backgroundColor: Colors.black45,
       titleTextStyle: TextStyle(
-          color: Colors.red,
+          color: Colors.white,
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
           fontSize: 24),
