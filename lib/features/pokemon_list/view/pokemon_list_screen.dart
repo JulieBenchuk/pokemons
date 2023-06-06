@@ -12,12 +12,13 @@ class PokemonListScreen extends StatefulWidget {
 
 class _PokemonListScreenState extends State<PokemonListScreen> {
   List<Pokemon>? pokemonList;
-  int numberOfPages = 100;
   int currentPage = 0;
+  int amountOfPage = 0;
 
   @override
   void initState() {
     _getPokemonList();
+    _getAmountOfPage();
     super.initState();
   }
 
@@ -38,15 +39,14 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                   child: _getPaginator(),
                 ),
                 Expanded(
-                    child: Container(
-                        child: ListView.separated(
-                            padding: const EdgeInsets.only(top: 20),
-                            itemCount: pokemonList!.length,
-                            separatorBuilder: (context, i) => const Divider(),
-                            itemBuilder: (context, i) {
-                              final pokemon = pokemonList![i];
-                              return PokemonTile(pokemon: pokemon);
-                            }))),
+                    child: ListView.separated(
+                        padding: const EdgeInsets.only(top: 20),
+                        itemCount: pokemonList!.length,
+                        separatorBuilder: (context, i) => const Divider(),
+                        itemBuilder: (context, i) {
+                          final pokemon = pokemonList![i];
+                          return PokemonTile(pokemon: pokemon);
+                        })),
               ],
             ),
     );
@@ -54,7 +54,7 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
 
   NumberPaginator _getPaginator() {
     return NumberPaginator(
-      numberPages: numberOfPages,
+      numberPages: amountOfPage,
       initialPage: currentPage,
       config: NumberPaginatorUIConfig(
         buttonUnselectedForegroundColor: Colors.white,
@@ -65,13 +65,17 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
       ),
       onPageChange: (index) {
         currentPage = index;
-        setState(() {
-          _getPokemonList();
-        });
+        _getPokemonList().then((value) => {
+              setState(() {
+                pokemonList = value;
+              })
+            });
       },
     );
   }
 
   Future<List<Pokemon>> _getPokemonList() async =>
       pokemonList = await PokemonRepository().getPokemonList(currentPage);
+  Future<int> _getAmountOfPage() async =>
+      amountOfPage = await PokemonRepository().getAmountOfPage();
 }

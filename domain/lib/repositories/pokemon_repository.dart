@@ -21,7 +21,7 @@ class PokemonRepository implements AbstractPokemonRepository {
   Future<int> getAmountOfPage() async {
     final response = await Dio().get('https://pokeapi.co/api/v2/pokemon/');
     final data = response.data as Map<String, dynamic>;
-    final int amountOfPage = data['count'] / limit + 1;
+    final int amountOfPage = (data['count'] / limit).round() + 1;
     return amountOfPage;
   }
 
