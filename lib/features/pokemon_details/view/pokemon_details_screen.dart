@@ -32,11 +32,11 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(pokemonDetails == null
-            ? 'loading name..'
+            ? '...'
             : '${pokemonDetails!['name']} details'.toUpperCase()),
       ),
       body: pokemonDetails == null
-          ? const Center(child: Text('loading'))
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(

@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
-  int limit = 9;
+  int limit = 20;
 
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
