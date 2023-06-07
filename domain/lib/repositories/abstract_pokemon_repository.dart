@@ -2,6 +2,6 @@ import '../models/models.dart';
 
 abstract class AbstractPokemonRepository {
   Future<List<Pokemon>> getPokemonList(currentPage);
-  Future<Map<String, Object>> getPokemonDetails(pokemonUrl);
+  Future<PokemonDetails> getPokemonDetails(pokemonUrl);
   Future<int> getAmountOfPage();
 }

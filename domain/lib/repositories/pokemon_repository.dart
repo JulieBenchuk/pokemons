@@ -26,7 +26,7 @@ class PokemonRepository implements AbstractPokemonRepository {
   }
 
   @override
-  Future<Map<String, Object>> getPokemonDetails(pokemonUrl) async {
+  Future<PokemonDetails> getPokemonDetails(pokemonUrl) async {
     final response = await Dio().get(pokemonUrl);
     final data = response.data as Map<String, dynamic>;
     final String name = data['name'];
@@ -37,13 +37,13 @@ class PokemonRepository implements AbstractPokemonRepository {
     final List types = data['types'] as List<dynamic>;
     final List listOfTypes = types.map((e) => e['type']['name']).toList();
     final pokemonDetails = {
-      'name': name,
-      'id': id,
-      'weight': weight,
-      'height': height,
-      'types': listOfTypes,
-      'imgUrl': imgUrl
+      name: name,
+      id: id,
+      weight: weight,
+      height: height,
+      types: listOfTypes,
+      imgUrl: imgUrl
     };
-    return pokemonDetails;
+    return pokemonDetails as PokemonDetails;
   }
 }

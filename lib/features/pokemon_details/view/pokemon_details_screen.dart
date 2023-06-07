@@ -10,7 +10,7 @@ class PokemonDetailsScreen extends StatefulWidget {
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   String? pokemonUrl;
-  Map<dynamic, dynamic>? pokemonDetails;
+  PokemonDetails? pokemonDetails;
 
   @override
   void didChangeDependencies() {
@@ -33,7 +33,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
       appBar: AppBar(
         title: Text(pokemonDetails == null
             ? '...'
-            : '${pokemonDetails!['name']} details'.toUpperCase()),
+            : '${pokemonDetails!.name} details'.toUpperCase()),
       ),
       body: pokemonDetails == null
           ? const Center(child: CircularProgressIndicator())
@@ -45,24 +45,24 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      child: Image.network(pokemonDetails!['imgUrl']),
+                      child: Image.network(pokemonDetails!.imgUrl),
                     ),
                   ),
                   Expanded(
                       flex: 1,
                       child: Center(
-                          child: Text(pokemonDetails!['name'],
+                          child: Text(pokemonDetails!.name,
                               style: Theme.of(context).textTheme.bodyLarge))),
                   Expanded(
                     flex: 5,
                     child: Container(
                       child: Column(
                         children: [
-                          Text('Weight: ${pokemonDetails!['weight']}',
+                          Text('Weight: ${pokemonDetails!.weight}',
                               style: Theme.of(context).textTheme.bodyMedium),
-                          Text('Height: ${pokemonDetails!['height']}',
+                          Text('Height: ${pokemonDetails!.height}',
                               style: Theme.of(context).textTheme.bodyMedium),
-                          Text('Types: ${pokemonDetails!['types'].toString()}',
+                          Text('Types: ${pokemonDetails!.types.toString()}',
                               style: Theme.of(context).textTheme.bodyMedium),
                         ],
                       ),
@@ -74,6 +74,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     );
   }
 
-  Future<Map<String, Object>> _getPokemonDetails() async =>
+  Future<PokemonDetails> _getPokemonDetails() async =>
       pokemonDetails = await PokemonRepository().getPokemonDetails(pokemonUrl);
 }
