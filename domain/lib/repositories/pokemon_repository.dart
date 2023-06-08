@@ -3,9 +3,8 @@ import 'package:domain/domain.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
-  // PokemonRepository({required this.pokemonListBox});
   int limit = 20;
-  late final Box<List<Pokemon>> pokemonListBox;
+  Box<Pokemon>? pokemonListBox;
 
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
@@ -17,7 +16,9 @@ class PokemonRepository implements AbstractPokemonRepository {
     final result = data['results'] as List<dynamic>;
     final resultList = result
         .map((e) => Pokemon(() {}, name: e['name'], url: e['url']))
-        .toList(); //1st param??
+        .toList();
+    final resultMap = {for (var e in resultList) e: e};
+    await pokemonListBox?.putAll(resultMap);
     return resultList;
   }
 
