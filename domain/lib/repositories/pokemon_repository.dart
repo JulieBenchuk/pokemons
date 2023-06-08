@@ -46,9 +46,7 @@ class PokemonRepository implements AbstractPokemonRepository {
     try {
       pokemonDetails = await _fetchPokemonDetails(pokemonUrl);
       await pokemonDetailsBox.putAll(pokemonDetails);
-    } catch (e) {
-      // return pokemonDetailsBox.values;
-    }
+    } catch (e) {}
     return pokemonDetails;
   }
 
