@@ -6,10 +6,12 @@ class PokemonRepository implements AbstractPokemonRepository {
   PokemonRepository(
       {required this.dio,
       required this.pokemonListBox,
-      required this.amountOfPageBox});
+      required this.amountOfPageBox,
+      required this.pokemonDetailsBox});
   final Dio dio;
   final Box<Pokemon> pokemonListBox;
   final Box<int> amountOfPageBox;
+  final Box pokemonDetailsBox;
   int limit = 20;
 
   @override
@@ -20,7 +22,7 @@ class PokemonRepository implements AbstractPokemonRepository {
       pokemonList = await _fetchPokemonListFromApi(offset);
       final resultMap = {for (var e in pokemonList) e.url: e};
       await pokemonListBox.putAll(resultMap);
-    } catch (e, st) {
+    } catch (e) {
       return pokemonListBox.values.toList();
     }
     return pokemonList;
@@ -32,7 +34,7 @@ class PokemonRepository implements AbstractPokemonRepository {
     try {
       amountOfPage = await _fetchAmountOfPage(amountOfPage);
       await amountOfPageBox.put("amountOfPage", amountOfPage);
-    } catch (e, st) {
+    } catch (e) {
       return amountOfPageBox.values.first;
     }
     return amountOfPage;
@@ -40,7 +42,14 @@ class PokemonRepository implements AbstractPokemonRepository {
 
   @override
   Future<Map<String, Object>> getPokemonDetails(pokemonUrl) async {
-    return await _fetchPokemonDetails(pokemonUrl);
+    var pokemonDetails;
+    try {
+      pokemonDetails = await _fetchPokemonDetails(pokemonUrl);
+      await pokemonDetailsBox.putAll(pokemonDetails);
+    } catch (e) {
+      // return pokemonDetailsBox.values;
+    }
+    return pokemonDetails;
   }
 
   Future<List<Pokemon>> _fetchPokemonListFromApi(int offset) async {
@@ -49,9 +58,8 @@ class PokemonRepository implements AbstractPokemonRepository {
     final response = await dio.get(pokemonListUrl);
     final data = response.data as Map<String, dynamic>;
     final result = data['results'] as List<dynamic>;
-    final resultList = result
-        .map((e) => Pokemon(() {}, name: e['name'], url: e['url']))
-        .toList();
+    final resultList =
+        result.map((e) => Pokemon(name: e['name'], url: e['url'])).toList();
     return resultList;
   }
 
