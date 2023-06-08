@@ -21,12 +21,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     super.didChangeDependencies();
   }
 
-/*  @override
-  void initState() {
-    _getPokemonDetails();
-    super.initState();
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -8,18 +8,18 @@ class PokemonRepository implements AbstractPokemonRepository {
 
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
-    final int offset = (currentPage) * limit;
-    final String pokemonListUrl =
-        'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
-    final response = await Dio().get(pokemonListUrl);
-    final data = response.data as Map<String, dynamic>;
-    final result = data['results'] as List<dynamic>;
-    final resultList = result
-        .map((e) => Pokemon(() {}, name: e['name'], url: e['url']))
-        .toList();
-    final resultMap = {for (var e in resultList) e: e};
-    await pokemonListBox?.putAll(resultMap);
-    return resultList;
+    var pokemonList = <Pokemon>[];
+    try {
+      final int offset = (currentPage) * limit;
+      pokemonList = await _fetchPokemonListFromApi(offset);
+      final resultMap = {for (var e in pokemonList) e: e};
+      await pokemonListBox?.putAll(resultMap);
+    } catch (e, st) {
+      if (pokemonListBox != null) {
+        return pokemonListBox!.values.toList();
+      }
+    }
+    return pokemonList;
   }
 
   @override
@@ -32,6 +32,22 @@ class PokemonRepository implements AbstractPokemonRepository {
 
   @override
   Future<Map<String, Object>> getPokemonDetails(pokemonUrl) async {
+    return await _fetchPokemonDetails(pokemonUrl);
+  }
+
+  Future<List<Pokemon>> _fetchPokemonListFromApi(int offset) async {
+    final String pokemonListUrl =
+        'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
+    final response = await Dio().get(pokemonListUrl);
+    final data = response.data as Map<String, dynamic>;
+    final result = data['results'] as List<dynamic>;
+    final resultList = result
+        .map((e) => Pokemon(() {}, name: e['name'], url: e['url']))
+        .toList();
+    return resultList;
+  }
+
+  Future<Map<String, Object>> _fetchPokemonDetails(pokemonUrl) async {
     final response = await Dio().get(pokemonUrl);
     final data = response.data as Map<String, dynamic>;
     final String name = data['name'];
