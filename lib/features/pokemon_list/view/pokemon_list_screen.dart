@@ -1,5 +1,7 @@
+import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:pokemons/features/pokemon_list/widgets/widgets.dart';
 
@@ -74,8 +76,8 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
     );
   }
 
-  Future<List<Pokemon>> _getPokemonList() async =>
-      pokemonList = await PokemonRepository().getPokemonList(currentPage);
-  Future<int> _getAmountOfPage() async =>
-      amountOfPage = await PokemonRepository().getAmountOfPage();
+  Future<List<Pokemon>> _getPokemonList() async => pokemonList =
+      await GetIt.I<AbstractPokemonRepository>().getPokemonList(currentPage);
+  Future<int> _getAmountOfPage() async => amountOfPage =
+      await GetIt.I<AbstractPokemonRepository>().getAmountOfPage();
 }

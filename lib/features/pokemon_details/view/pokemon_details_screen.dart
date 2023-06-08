@@ -1,5 +1,7 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:domain/domain.dart';
+import 'package:get_it/get_it.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
   const PokemonDetailsScreen({super.key});
@@ -68,6 +70,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     );
   }
 
-  Future<Map<String, Object>> _getPokemonDetails() async =>
-      pokemonDetails = await PokemonRepository().getPokemonDetails(pokemonUrl);
+  Future<Map<String, Object>> _getPokemonDetails() async => pokemonDetails =
+      await GetIt.I<AbstractPokemonRepository>().getPokemonDetails(pokemonUrl);
 }

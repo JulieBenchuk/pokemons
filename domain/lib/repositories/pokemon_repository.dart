@@ -3,8 +3,10 @@ import 'package:domain/domain.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
+  PokemonRepository({required this.dio, required this.pokemonListBox});
+  final Dio dio;
+  final Box<Pokemon> pokemonListBox;
   int limit = 20;
-  Box<Pokemon>? pokemonListBox;
 
   @override
   Future<List<Pokemon>> getPokemonList(currentPage) async {
@@ -12,19 +14,17 @@ class PokemonRepository implements AbstractPokemonRepository {
     try {
       final int offset = (currentPage) * limit;
       pokemonList = await _fetchPokemonListFromApi(offset);
-      final resultMap = {for (var e in pokemonList) e: e};
-      await pokemonListBox?.putAll(resultMap);
+      final resultMap = {for (var e in pokemonList) e.url: e};
+      await pokemonListBox.putAll(resultMap);
     } catch (e, st) {
-      if (pokemonListBox != null) {
-        return pokemonListBox!.values.toList();
-      }
+      return pokemonListBox.values.toList();
     }
     return pokemonList;
   }
 
   @override
   Future<int> getAmountOfPage() async {
-    final response = await Dio().get('https://pokeapi.co/api/v2/pokemon/');
+    final response = await dio.get('https://pokeapi.co/api/v2/pokemon/');
     final data = response.data as Map<String, dynamic>;
     final int amountOfPage = (data['count'] / limit).round() + 1;
     return amountOfPage;
@@ -38,7 +38,7 @@ class PokemonRepository implements AbstractPokemonRepository {
   Future<List<Pokemon>> _fetchPokemonListFromApi(int offset) async {
     final String pokemonListUrl =
         'https://pokeapi.co/api/v2/pokemon/?offset=$offset&limit=$limit';
-    final response = await Dio().get(pokemonListUrl);
+    final response = await dio.get(pokemonListUrl);
     final data = response.data as Map<String, dynamic>;
     final result = data['results'] as List<dynamic>;
     final resultList = result
@@ -48,7 +48,7 @@ class PokemonRepository implements AbstractPokemonRepository {
   }
 
   Future<Map<String, Object>> _fetchPokemonDetails(pokemonUrl) async {
-    final response = await Dio().get(pokemonUrl);
+    final response = await dio.get(pokemonUrl);
     final data = response.data as Map<String, dynamic>;
     final String name = data['name'];
     final int weight = data['weight'];
