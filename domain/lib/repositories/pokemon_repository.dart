@@ -3,9 +3,13 @@ import 'package:domain/domain.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class PokemonRepository implements AbstractPokemonRepository {
-  PokemonRepository({required this.dio, required this.pokemonListBox});
+  PokemonRepository(
+      {required this.dio,
+      required this.pokemonListBox,
+      required this.amountOfPageBox});
   final Dio dio;
   final Box<Pokemon> pokemonListBox;
+  final Box<int> amountOfPageBox;
   int limit = 20;
 
   @override
@@ -24,9 +28,13 @@ class PokemonRepository implements AbstractPokemonRepository {
 
   @override
   Future<int> getAmountOfPage() async {
-    final response = await dio.get('https://pokeapi.co/api/v2/pokemon/');
-    final data = response.data as Map<String, dynamic>;
-    final int amountOfPage = (data['count'] / limit).round() + 1;
+    var amountOfPage = 0;
+    try {
+      amountOfPage = await _fetchAmountOfPage(amountOfPage);
+      await amountOfPageBox.put("amountOfPage", amountOfPage);
+    } catch (e, st) {
+      return amountOfPageBox.values.first;
+    }
     return amountOfPage;
   }
 
@@ -66,5 +74,12 @@ class PokemonRepository implements AbstractPokemonRepository {
       "imgUrl": imgUrl
     };
     return pokemonDetails;
+  }
+
+  Future<int> _fetchAmountOfPage(int amountOfPage) async {
+    final response = await dio.get('https://pokeapi.co/api/v2/pokemon/');
+    final data = response.data as Map<String, dynamic>;
+    amountOfPage = (data['count'] / limit).round() + 1;
+    return amountOfPage;
   }
 }

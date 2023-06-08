@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
@@ -51,17 +50,15 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                               style: Theme.of(context).textTheme.bodyLarge))),
                   Expanded(
                     flex: 5,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text('Weight: ${pokemonDetails!['weight']}',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                          Text('Height: ${pokemonDetails!['height']}',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                          Text('Types: ${pokemonDetails!['types'].toString()}',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        Text('Weight: ${pokemonDetails!['weight']}',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        Text('Height: ${pokemonDetails!['height']}',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        Text('Types: ${pokemonDetails!['types'].toString()}',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ],
                     ),
                   ),
                 ],

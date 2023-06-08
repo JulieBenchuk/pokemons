@@ -13,8 +13,13 @@ void main() async {
   Hive.registerAdapter(PokemonDetailsAdapter());
 
   const pokemonList = 'pokemon_list_box';
+  const amountOfPage = 'amount_of_page';
   final pokemonListBox = await Hive.openBox<Pokemon>(pokemonList);
-  GetIt.I.registerLazySingleton<AbstractPokemonRepository>(
-      () => PokemonRepository(dio: Dio(), pokemonListBox: pokemonListBox));
+  final amountOfPageBox = await Hive.openBox<int>(amountOfPage);
+  GetIt.I.registerLazySingleton<AbstractPokemonRepository>(() =>
+      PokemonRepository(
+          dio: Dio(),
+          pokemonListBox: pokemonListBox,
+          amountOfPageBox: amountOfPageBox));
   runApp(const PokemonApp());
 }
